@@ -8,18 +8,37 @@
     <div id="navbar-container"></div>
     <h2>Create Order</h2>
     <form id="orderForm" class="mb-4">
-        <select id="schoolSelect" class="form-select mb-2" required></select>
-        <input type="text" id="studentName" class="form-control mb-2" placeholder="Student Name" required>
-        <select id="itemSelect" class="form-select mb-2" required></select>
-        <input type="number" id="quantity" class="form-control mb-2" placeholder="Quantity" required>
-        <button type="submit" class="btn btn-primary">Add Order</button>
+        <div class="mb-2">
+            <label for="studentName" class="form-label">Student Name</label>
+            <input type="text" id="studentName" class="form-control" placeholder="Student Name" required>
+        </div>
+        <div class="mb-2">
+            <label for="phoneNumber" class="form-label">Phone Number</label>
+            <input type="text" id="phoneNumber" class="form-control" placeholder="Phone Number" pattern="[0-9]{10}" required>
+        </div>
+        <div class="mb-2">
+            <label for="schoolSelect" class="form-label">School</label>
+            <select id="schoolSelect" class="form-select" required></select>
+        </div>
+        <div class="mb-2">
+            <label for="className" class="form-label">Class</label>
+            <input type="text" id="className" class="form-control" placeholder="Class" required>
+        </div>
+        <div class="mb-2">
+            <label for="genderSelect" class="form-label">Gender</label>
+            <select id="genderSelect" class="form-select" required>
+                <option value="">Select Gender</option>
+                <option value="Boys">Boys</option>
+                <option value="Girls">Girls</option>
+            </select>
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Items</label>
+            <div id="itemsContainer"></div>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Order</button>
     </form>
 
-    <h3>All Orders</h3>
-    <table class="table" id="ordersTable">
-        <thead><tr><th>School</th><th>Student</th><th>Item</th><th>Qty</th></tr></thead>
-        <tbody></tbody>
-    </table>
 
     <script src="js/orders.js"></script>
     <script src="js/navbar.js"></script>
