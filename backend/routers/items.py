@@ -10,5 +10,6 @@ def list_items():
 @router.post("/")
 def add_item(item: Item):
     new_id = max([i["item_id"] for i in get_all_records("Items")], default=0) + 1
-    append_row("Items", [new_id, item.item_name, item.gender])
+    sizes_str = ",".join(item.item_sizes) if isinstance(item.item_sizes, list) else str(item.item_sizes)
+    append_row("Items", [new_id, item.item_name, item.gender, sizes_str])
     return {"message":"item added"}
