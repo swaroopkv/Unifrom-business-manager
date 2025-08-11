@@ -15,7 +15,7 @@ def place_order(payload: OrderCreate):
     price_map = {(r["school_name"], r["item_name"],r["item_size"],r["item_gender"]): float(r["price"]) for r in prices_rows}
     # append one row per item to Orders sheet
     for it in payload.items:
-        price_per_unit = price_map.get((payload.school_name, it.item_name), 0)
+        price_per_unit = price_map.get((payload.school_name, it.item_name, it.size, payload.gender), 0)
         total_price = price_per_unit * it.qty
         append_row("Orders", [payload.student_name, payload.class_name, payload.school_name, payload.gender, payload.phone_number, it.item_name, it.qty, total_price])
     return {"message":"order recorded"}
