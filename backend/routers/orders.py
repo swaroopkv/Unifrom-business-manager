@@ -17,5 +17,5 @@ def place_order(payload: OrderCreate):
     for it in payload.items:
         price_per_unit = price_map.get((payload.school_name, it.item_name, it.size, payload.gender), 0)
         total_price = price_per_unit * it.qty
-        append_row("Orders", [payload.student_name, payload.class_name, payload.school_name, payload.gender, payload.phone_number, it.item_name, it.qty, total_price])
+        append_row("Orders", [payload.student_name, payload.class_name, payload.school_name, payload.gender, payload.phone_number, it.item_name,it.size, it.qty, total_price])
     return {"message":"order recorded"}

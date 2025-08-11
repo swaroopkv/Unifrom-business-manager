@@ -81,6 +81,7 @@ document.getElementById("orderForm").addEventListener("submit", async (e) => {
             items.push({ item_name: chk.nextElementSibling.textContent.split(" ")[0], qty, size });
         }
     });
+    console.log("Selected items:", items);
     if (items.length === 0) {
         alert("Select at least one item and enter quantity.");
         return;
