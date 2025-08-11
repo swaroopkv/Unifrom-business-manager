@@ -12,7 +12,7 @@ def get_orders():
 def place_order(payload: OrderCreate):
     # load prices
     prices_rows = get_all_records("Prices")
-    price_map = {(r["school_name"], r["item_name"]): float(r["price"]) for r in prices_rows}
+    price_map = {(r["school_name"], r["item_name"],r["item_size"],r["item_gender"]): float(r["price"]) for r in prices_rows}
     # append one row per item to Orders sheet
     for it in payload.items:
         price_per_unit = price_map.get((payload.school_name, it.item_name), 0)

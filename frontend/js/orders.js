@@ -13,7 +13,6 @@ async function loadSchools() {
 }
 
 async function loadItemsForOrder() {
-    // Get selected school and gender
     const schoolName = document.getElementById("schoolSelect").selectedOptions[0].textContent;
     const gender = document.getElementById("genderSelect").value;
     if (!schoolName || !gender) {
@@ -32,7 +31,7 @@ async function loadItemsForOrder() {
     const priceItemNames = new Set(validPrices.map(p => p.item_name));
     // Filter items by gender/unisex and valid price
     const filteredItems = items.filter(i => (i.gender === gender || i.gender === "Unisex") && priceItemNames.has(i.item_name));
-    // Render checkboxes and quantity inputs
+    // Render checkboxes, size dropdowns, and quantity inputs
     const container = document.getElementById("itemsContainer");
     if (filteredItems.length === 0) {
         container.innerHTML = "<div class='text-danger'>No items available for selected gender and school.</div>";
@@ -40,11 +39,15 @@ async function loadItemsForOrder() {
     }
     container.innerHTML = filteredItems.map(i => {
         const priceObj = validPrices.find(p => p.item_name === i.item_name);
-        console.log("validPrices", validPrices);
-        console.log("priceObj", priceObj);
+        // Get sizes as array
+        let sizes = typeof i.item_sizes === "string" ? i.item_sizes.split(",").map(s => s.trim()) : i.item_sizes;
+        let sizeOptions = sizes.map(size => `<option value="${size}">${size}</option>`).join("");
         return `<div class='form-check mb-2'>
             <input class='form-check-input item-check' type='checkbox' id='item_${i.item_id}' value='${i.item_id}'>
             <label class='form-check-label' for='item_${i.item_id}'>${i.item_name} (${i.gender}) - ₹${priceObj ? priceObj.price : "N/A"}</label>
+            <select class='form-select mt-1 item-size' id='size_${i.item_id}' style='max-width:120px;display:inline-block;' ${priceObj ? "" : "disabled"}>
+                ${sizeOptions}
+            </select>
             <input type='number' min='1' class='form-control mt-1 item-qty' id='qty_${i.item_id}' placeholder='Quantity' style='max-width:120px;display:inline-block;' disabled>
         </div>`;
     }).join("");
@@ -54,6 +57,9 @@ async function loadItemsForOrder() {
             const qtyInput = document.getElementById(`qty_${this.value}`);
             qtyInput.disabled = !this.checked;
             if (!this.checked) qtyInput.value = "";
+            // Enable/disable size dropdown as well
+            const sizeSelect = document.getElementById(`size_${this.value}`);
+            sizeSelect.disabled = !this.checked;
         });
     });
 }
@@ -70,8 +76,9 @@ document.getElementById("orderForm").addEventListener("submit", async (e) => {
     const items = [];
     document.querySelectorAll('.item-check:checked').forEach(chk => {
         const qty = parseInt(document.getElementById(`qty_${chk.value}`).value);
+        const size = document.getElementById(`size_${chk.value}`).value;
         if (qty && qty > 0) {
-            items.push({ item_name: chk.nextElementSibling.textContent.split(" ")[0], qty });
+            items.push({ item_name: chk.nextElementSibling.textContent.split(" ")[0], qty, size });
         }
     });
     if (items.length === 0) {
@@ -116,7 +123,6 @@ document.getElementById("orderForm").addEventListener("submit", async (e) => {
         if (msg) msg.remove();
     }, 3000);
 
-    loadOrders();
     document.getElementById("orderForm").reset();
     document.getElementById("itemsContainer").innerHTML = "";
 });

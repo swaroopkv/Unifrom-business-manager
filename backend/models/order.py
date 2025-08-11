@@ -3,6 +3,7 @@ from typing import List
 
 class OrderItem(BaseModel):
     item_name: str
+    size : str
     qty: int
 
 class OrderCreate(BaseModel):
