@@ -12,6 +12,10 @@
         <select id="schoolSelect" class="form-select mb-2" required></select>
         <label for="itemSelect" class="form-label">Select Item</label>
         <select id="itemSelect" class="form-select mb-2" required></select>
+        <label for="itemSize" class="form-label">Select Item Size</label>
+        <select id="itemSize" class="form-select mb-2" required></select>
+        <label for="itemGender" class="form-label">Select Item Gender</label>
+        <select id="itemGender" class="form-select mb-2" required></select>
         <label for="price" class="form-label"> Input Price</label>
         <input type="number" step ="0.1" id="price" class="form-control mb-2" placeholder="Price" required>
         <button type="submit" class="btn btn-primary">Set Price</button>
@@ -23,6 +27,8 @@
             <tr>
                 <th>School</th>
                 <th>Item</th>
+                <th>Size</th>
+                <th>Gender</th>
                 <th>Price</th>
             </tr></thead>
         <tbody id="pricesTableBody"></tbody>
